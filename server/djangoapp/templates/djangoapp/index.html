@@ -14,20 +14,33 @@
 </head>
 
     <body>
-        <nav class="navbar navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <div class="navbar-header">
-                      <a class="navbar-brand" href="#">Car Dealership</a>
-                      <a class="navbar-brand" href="https://sanjitsdev-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/about/">About Us</a>
-                      <a class="navbar-brand" href="https://sanjitsdev-8000.theiadockernext-0-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/djangoapp/contact/">Contact Us</a>
-                      <form>
-                        <input type="text" class="username">
-                        <input type="password" class="password">
-                      </form>
-
-                      <button href="#">Login</button>
-                      <button href="#">Sign Up</button>
+                    <a class="navbar-brand" href="{% url 'djangoapp:index' %}">Best Cars Dealership</a>
                 </div>
+                <a class="nav navbar-nav" href="{% url 'djangoapp:contact' %}">Contact Us</a>
+                <a class="nav navbar-nav" href="{% url 'djangoapp:register' %}">Sign Up</a>
+                <!-- create form to accept username and password -->
+                {% if user.is_authenticated %}
+                    <li style="list-style: none;">
+                        <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                        <a class="btn btn-link" href="{% url 'djangoapp:logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <form method="post" class="form-inline" action="{% url 'djangoapp:login' %}">
+                        {% csrf_token %}
+                        <div class="form-group mx-sm-2">
+                            <input type="text" name="username" class="form-control" id="username" placeholder="Username" required>
+                        </div>
+                        <div class="form-group mx-sm-2">
+                            <input type="password" name="psw" class="form-control" id="psw" placeholder="Password" required>
+                        </div>
+                        <div class="form-group mx-sm-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                {% endif %}
             </div>
         </nav>
 
